@@ -5,6 +5,9 @@ const geoCode = require('./utils/geoCode')
 const forecastCode = require('./utils/forecastCode')
 
 const app = express()
+const port = process.env.PORT || 3000
+
+
 const publicDirectoryPath = path.join(__dirname, '../public')
 const viewPath = path.join(__dirname,'../templates/views')
 const partialPath = path.join(__dirname,'../templates/partials')
@@ -55,6 +58,6 @@ app.get("/weather", (req, res)=>{
 })
 
 
-app.listen(3000,()=>{
-    console.log("Server run at 3000")
+app.listen(port,()=>{
+    console.log("Server run at port" + port)
 })
