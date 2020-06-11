@@ -23,16 +23,6 @@ app.get('', (req, res)=>{
     })
 })
 
-app.get('/help', (req, res)=>{
-    res.send({
-        name:'Hello'
-    })
-})
-
-app.get("/about", (req, res)=>{
-    res.send("Hello About")
-})
-
 app.get("/weather", (req, res)=>{
     if(!req.query.address){
        return res.send({
@@ -40,18 +30,22 @@ app.get("/weather", (req, res)=>{
         })
     }
 
-    geoCode(req.query.address,(error, {latitude,longitude,location} = { } ) => {
+    // geoCode(req.query.address,(error, {latitude,longitude,location} = { } ) => {
+    geoCode(req.query.address,(error, response ) => {
         if(error){
         return res.send({error })
         }
-        forecastCode(latitude,longitude,(error,forecastData)=> {
+        forecastCode(response.latitude,response.longitude,(error,forecastData)=> {
             if(error){
                 return res.send({error})
             }
             res.send({
-                forecast : forecastData,
-                address : req.query.address,
-                location
+                temprature :'Temp : '+(forecastData.temp-273).toFixed(2) +'°C',
+                temp_Min:'Temp Min : '+(forecastData.temp_min-273).toFixed(2) +'°C',
+                temp_Max:'Temp Max : '+(forecastData.temp_max-273).toFixed(2) +'°C',
+                pressure:'Pressure : '+ forecastData.pressure,
+                humidity:'Humidity : '+forecastData.humidity,
+                location: response.location
             })
         })
     })
@@ -59,5 +53,5 @@ app.get("/weather", (req, res)=>{
 
 
 app.listen(port,()=>{
-    console.log("Server run at port" + port)
+    console.log("Server run at port " + port)
 })

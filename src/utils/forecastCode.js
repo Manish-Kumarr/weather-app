@@ -10,7 +10,9 @@ const forecastCode = ( latitude,longitude, callback) =>{
             else if(body.message){
                 callback("Unable to find location!",undefined)
             }else{
-                callback(undefined,'Temp : ' + (body.main.temp-273).toFixed(2) +'°C')
+                console.log(body)
+                // callback(undefined,'Temp : ' + (body.main.temp-273).toFixed(2) +'°C')
+                callback(undefined,body.main)
             }
         })
 }
